@@ -1,14 +1,6 @@
-int F[30] = {-1};
-
-int fib(int n){
-    static int F[30];
-    static int flag  = 1;
-    if (flag)
-    {
-        memset(F, -1, sizeof(F));
-        flag  = 0;
-    }
-    
+int F[30];
+int fib_memo(int n)
+{
     if (n <= 1)
     {
         return n;
@@ -17,16 +9,21 @@ int fib(int n){
     {
         if (F[n-2] == -1)
         {
-             F[n-2] = fib(n-2);   
+             F[n-2] = fib_memo(n-2);   
         }
            
         if (F[n-1] == -1)
         {
-             F[n-1] = fib(n-1);  
+             F[n-1] = fib_memo(n-1);  
         }
            
         return (F[n-2] + F[n-1]);
     }  
+}
+
+int fib(int n){
+    memset(F, -1, sizeof(F));
+    return fib_memo(n);
 }
 
 
