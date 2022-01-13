@@ -4,8 +4,6 @@ int search(int* nums, int numsSize, int target){
     int start = 0;
     int end = numsSize - 1;
     
-    if (numsSize == 1 && nums[0] == target)
-            return 0;
     
     while (start <= end)
     {
