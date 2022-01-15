@@ -6,37 +6,52 @@
  * };
  */
 
-int Count(struct ListNode* p)
+struct ListNode* findFirstHalf(struct ListNode* p)
 {
-    int count = 0;
-    while (p)
+    struct ListNode* s= p;
+    struct ListNode* f = p;
+    
+    while(f->next != NULL && f->next->next != NULL)
     {
-        ++count;
-        p = p->next;
+        s = s->next;
+        f = f->next->next;
     }
     
-    return count;
+    return s;
+}
+
+struct ListNode* reverseSecondHalf(struct ListNode* head)
+{
+    struct ListNode* r = NULL;
+    struct ListNode* q = NULL;
+    struct ListNode* p = head;
+    
+    while (p)
+    {
+        r = q;
+        q = p;
+        p = p->next;
+        q->next = r;
+    }
+    head = q;
+    return head;
 }
 
 int pairSum(struct ListNode* head){
-    int* nums = (int* )malloc(sizeof(int) * Count(head));
-    struct ListNode* p = head;
-    int k = 0;
-    int i;
-    int maxSum = INT32_MIN;
-    int sum = 0;
+    struct ListNode* first = findFirstHalf(head);
+    struct ListNode* second = reverseSecondHalf(first->next);
     
-    while (p)
+    struct ListNode* p = head;
+    struct ListNode* q = second;
+    int sum = 0;
+    int maxSum = INT32_MIN;
+    while (p && q)
     {
-        nums[k++] = p->val;
-        p = p->next;
-    }
-   
-    for (i = 0; i <= (k/2)-1; ++i)
-    {
-        sum = nums[i] + nums[k-1-i];
+        sum = p->val + q->val;
         if (sum > maxSum)
             maxSum = sum;
+        p = p->next;
+        q = q->next;
     }
     
     return maxSum;
